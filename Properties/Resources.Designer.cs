@@ -59,22 +59,5 @@ namespace FlemingBot.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Bestie, you look dehydrated
-        ///Oh shit, is that DePiglio again? 
-        ///I am Davis, though - he-niece of Lucifer!
-        ///Had to get rid of my son. He broke my precious Tonya Harding portrait while practicing his Spanish guitar. So I put him on eBay.
-        ///GET RID OF THE CHAIRS. NO ONE CAN KNOW WE SIT.
-        ///In February you&apos;re supposed to be in the house, violently moisturizing, punching the window to threaten the plow.
-        ///Gigi can&apos;t eat cookies! Or cow water!
-        ///Egg Lopez? You get a guy?
-        ///Why do I feel like that guy washes his hands with stra [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string quotes {
-            get {
-                return ResourceManager.GetString("quotes", resourceCulture);
-            }
-        }
     }
 }

@@ -20,7 +20,7 @@ namespace FlemingBot.Commands
             {
                 string txt = await sr.ReadToEndAsync();
                 string[] brokenList = txt.Split('\n');
-                Random random = new Random();
+                Random random = new();
                 int randomIndex = random.Next(brokenList.Length);
                 randomQuote = brokenList[randomIndex];
             }
