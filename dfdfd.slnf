@@ -1,0 +1,8 @@
+{
+  "solution": {
+    "path": "FlemingBot.sln",
+    "projects": [
+      "FlemingBot.csproj"
+    ]
+  }
+}

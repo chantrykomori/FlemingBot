@@ -3,14 +3,14 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiscordBotTemplate.Config
+namespace FlemingBot.Config
 {
     internal class JSONReader
     {
         public string token { get; set; }
         public string prefix { get; set; }
 
-        public async Task ReadJSON() 
+        public async Task ReadJSON()
         {
             // PLEASE NOTE that you have to copy your "config.json" file (with your token & prefix) over to
             // the /bin/Debug folder of your solution, else this won't work

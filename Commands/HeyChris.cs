@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DSharpPlus;
-using DSharpPlus.Entities;
+﻿using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
+using DSharpPlus.SlashCommands.Attributes;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
-namespace DiscordBotTemplate.Commands
+namespace FlemingBot.Commands
 {
     public class HeyChris : ApplicationCommandModule
     {
         [SlashCommand("heychris", "Get a random Chris Fleming quote")]
+        [SlashCooldown(1, 5, SlashCooldownBucketType.Channel)]
         public async Task HeyChrisCommand(InteractionContext context)
         {
             await context.DeferAsync();
@@ -21,7 +19,7 @@ namespace DiscordBotTemplate.Commands
             using (StreamReader sr = new StreamReader("quotes.txt"))
             {
                 string txt = await sr.ReadToEndAsync();
-                string[] brokenList = txt.Split(',');
+                string[] brokenList = txt.Split('\n');
                 Random random = new Random();
                 int randomIndex = random.Next(brokenList.Length);
                 randomQuote = brokenList[randomIndex];
@@ -29,7 +27,7 @@ namespace DiscordBotTemplate.Commands
 
             var embed = new DiscordEmbedBuilder
             {
-                Title = randomQuote,
+                Title = $"{randomQuote}",
                 Color = DiscordColor.Purple
             };
 

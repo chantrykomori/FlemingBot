@@ -1,18 +1,19 @@
-﻿using DiscordBotTemplate.Commands;
-using DiscordBotTemplate.Config;
-using DSharpPlus;
+﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
+using DSharpPlus.SlashCommands.Attributes;
+using DSharpPlus.SlashCommands.EventArgs;
+using FlemingBot.Commands;
+using FlemingBot.Config;
 using System;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace DiscordBotTemplate
+namespace FlemingBot
 {
     public sealed class Program
     {
@@ -59,6 +60,8 @@ namespace DiscordBotTemplate
 
             var slashCommandsConfiguration = Client.UseSlashCommands();
 
+            slashCommandsConfiguration.SlashCommandErrored += SlashCommandErrorHandler;
+
             //7. Register your commands
 
             Commands.RegisterCommands<Basic>();
@@ -69,38 +72,40 @@ namespace DiscordBotTemplate
             await Task.Delay(-1);
         }
 
+        private static async Task SlashCommandErrorHandler(SlashCommandsExtension sender, SlashCommandErrorEventArgs args)
+        {
+            if (args.Exception is SlashExecutionChecksFailedException exception)
+            {
+                string timeLeft = string.Empty;
+                foreach (var check in exception.FailedChecks)
+                {
+                    SlashCooldownAttribute cooldown = (SlashCooldownAttribute)check;
+                    timeLeft = cooldown.GetRemainingCooldown(args.Context).ToString(@"hh\:mm\:ss");
+                }
+
+                var cooldownMessage = new DiscordEmbedBuilder
+                {
+                    Color = DiscordColor.Red,
+                    Title = "Hold your horses, hoss!",
+                    Description = $"Cooldown: {timeLeft} remaining"
+                };
+
+                await args.Context.Channel.SendMessageAsync(cooldownMessage);
+            }
+        }
+
         private static async Task MessageCreatedHandler(DiscordClient sender, MessageCreateEventArgs args)
         {
-            string[] bobaFilters =
+            if (args.Message.Content.ToLower().Contains("boba"))
             {
-                "boba",
-                "Boba",
-                "BOBA"
-            };
-            string[] depiglioFilters =
-            {
-                "DePiglio",
-                "depiglio",
-                "DEPIGLIO",
-                "dePiglio",
-                "Depiglio"
-            };
-            string content = args.Message.Content;
-            bool bobaContains = bobaFilters.Any(x => x.Contains(content));
-            bool depiglioContains = depiglioFilters.Any(x => x.Contains(content));
-
-            string bobaUrl = "";
-
-            if (bobaContains)
-            {
-                await args.Channel.SendMessageAsync(bobaUrl);
+                await args.Message.RespondAsync("https://www.youtube.com/watch?v=uKKSDu_a9ik&pp=ygUOYm9iYSBtYW5pZmVzdG8%3D");
             }
 
-            if (depiglioContains)
+            else if (args.Message.Content.ToLower().Contains("depiglio"))
             {
                 FileStream file = new FileStream("depiglio.png", FileMode.Open, FileAccess.Read);
                 DiscordMessageBuilder builder = new DiscordMessageBuilder().AddFile(file);
-                await args.Channel.SendMessageAsync(builder);
+                await args.Message.RespondAsync(builder);
             }
         }
 
