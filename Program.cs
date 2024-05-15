@@ -96,14 +96,14 @@ namespace FlemingBot
 
         private static async Task MessageCreatedHandler(DiscordClient sender, MessageCreateEventArgs args)
         {
-            if (args.Message.Content.ToLower().Contains("boba"))
+            if (args.Message.Content.Contains("boba", StringComparison.CurrentCultureIgnoreCase))
             {
                 await args.Message.RespondAsync("https://www.youtube.com/watch?v=uKKSDu_a9ik&pp=ygUOYm9iYSBtYW5pZmVzdG8%3D");
             }
 
-            else if (args.Message.Content.ToLower().Contains("depiglio"))
+            else if (args.Message.Content.Contains("depiglio", StringComparison.CurrentCultureIgnoreCase))
             {
-                FileStream file = new FileStream("depiglio.png", FileMode.Open, FileAccess.Read);
+                FileStream file = new("Config/depiglio.png", FileMode.Open, FileAccess.Read);
                 DiscordMessageBuilder builder = new DiscordMessageBuilder().AddFile(file);
                 await args.Message.RespondAsync(builder);
             }

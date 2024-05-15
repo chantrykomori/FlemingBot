@@ -11,12 +11,12 @@ namespace FlemingBot.Commands
     {
         [SlashCommand("heychris", "Get a random Chris Fleming quote")]
         [SlashCooldown(1, 5, SlashCooldownBucketType.Channel)]
-        public async Task HeyChrisCommand(InteractionContext context)
+        public static async Task HeyChrisCommand(InteractionContext context)
         {
             await context.DeferAsync();
 
             string randomQuote;
-            using (StreamReader sr = new StreamReader("quotes.txt"))
+            using (StreamReader sr = new("Config/quotes.txt"))
             {
                 string txt = await sr.ReadToEndAsync();
                 string[] brokenList = txt.Split('\n');

@@ -20,10 +20,10 @@
     <Folder Include="docs\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="depiglio.png">
+    <Content Include="Config\depiglio.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="quotes.txt">
+    <Content Include="Config\quotes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
