@@ -2,10 +2,14 @@
 using DiscordBotTemplate.Config;
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
+using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
+using DSharpPlus.SlashCommands;
 using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DiscordBotTemplate
@@ -40,6 +44,7 @@ namespace DiscordBotTemplate
 
             //5. Set up the Task Handler Ready event
             Client.Ready += OnClientReady;
+            Client.MessageCreated += MessageCreatedHandler;
 
             //6. Set up the Commands Configuration
             var commandsConfig = new CommandsNextConfiguration()
@@ -52,13 +57,51 @@ namespace DiscordBotTemplate
 
             Commands = Client.UseCommandsNext(commandsConfig);
 
+            var slashCommandsConfiguration = Client.UseSlashCommands();
+
             //7. Register your commands
 
             Commands.RegisterCommands<Basic>();
+            slashCommandsConfiguration.RegisterCommands<HeyChris>();
 
             //8. Connect to get the Bot online
             await Client.ConnectAsync();
             await Task.Delay(-1);
+        }
+
+        private static async Task MessageCreatedHandler(DiscordClient sender, MessageCreateEventArgs args)
+        {
+            string[] bobaFilters =
+            {
+                "boba",
+                "Boba",
+                "BOBA"
+            };
+            string[] depiglioFilters =
+            {
+                "DePiglio",
+                "depiglio",
+                "DEPIGLIO",
+                "dePiglio",
+                "Depiglio"
+            };
+            string content = args.Message.Content;
+            bool bobaContains = bobaFilters.Any(x => x.Contains(content));
+            bool depiglioContains = depiglioFilters.Any(x => x.Contains(content));
+
+            string bobaUrl = "";
+
+            if (bobaContains)
+            {
+                await args.Channel.SendMessageAsync(bobaUrl);
+            }
+
+            if (depiglioContains)
+            {
+                FileStream file = new FileStream("depiglio.png", FileMode.Open, FileAccess.Read);
+                DiscordMessageBuilder builder = new DiscordMessageBuilder().AddFile(file);
+                await args.Channel.SendMessageAsync(builder);
+            }
         }
 
         private static Task OnClientReady(DiscordClient sender, ReadyEventArgs e)

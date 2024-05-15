@@ -152,6 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Basic.cs" />
+    <Compile Include="Commands\HeyChris.cs" />
     <Compile Include="Config\JSONReader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -159,9 +160,13 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Config\config.json" />
-    <None Include="docs\repository_setup.md" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="docs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="quotes.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
