@@ -10,7 +10,7 @@ namespace FlemingBot.Commands
     public class HeyChris : ApplicationCommandModule
     {
         [SlashCommand("heychris", "Get a random Chris Fleming quote")]
-        [SlashCooldown(1, 5, SlashCooldownBucketType.Channel)]
+        [SlashCooldown(1, 6, SlashCooldownBucketType.Channel)]
         public static async Task HeyChrisCommand(InteractionContext context)
         {
             await context.DeferAsync();
